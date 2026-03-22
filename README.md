@@ -1,7 +1,7 @@
 # Serverless OpenAPI Documentation Plugin
 
 [![NPM](https://img.shields.io/npm/v/serverless-openapi-documentation.svg)](https://npmjs.org/packages/serverless-openapi-documentation/)
-[![Travis CI](https://img.shields.io/travis/temando/serverless-openapi-documentation.svg)](https://travis-ci.org/temando/serverless-openapi-documentation)
+[![Travis CI](https://img.shields.io/travis/kumarmedasani/serverless-openapi-documentation.svg)](https://travis-ci.org/kumarmedasani/serverless-openapi-documentation)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 Generates [**OpenAPI 3.0.0**](https://github.com/OAI/OpenAPI-Specification/blob/3.0.0/versions/3.0.0.md) documentation from serverless configuration files. OpenAPI is formerly known as Swagger. The configuration is inspired by the format used in [serverless-aws-documentation](https://www.npmjs.com/package/serverless-aws-documentation).
@@ -10,6 +10,7 @@ Works well with [Lincoln OpenAPI Renderer](https://github.com/temando/open-api-r
 
 ---
 
+- [Install](#install)
 - [Usage](#usage)
   - [Options](#options)
   - [Configuration](#configuration)
@@ -20,10 +21,45 @@ Works well with [Lincoln OpenAPI Renderer](https://github.com/temando/open-api-r
     - [`cookieParams`](#cookieparams)
     - [`requestModels`](#requestmodels)
     - [`methodResponses`](#methodresponses)
+      - [`responseModels`](#responsemodels)
+      - [`responseHeaders` and `requestHeaders`](#responseheaders-and-requestheaders)
 - [Example Configuration](#example-configuration)
-- [Install](#install)
+- [License](#license)
 
 ---
+
+## Install
+
+This plugin works for Serverless 1.x and up. Serverless 0.5 is not supported.
+
+To add this plugin to your package.json:
+
+**Using npm:**
+```bash
+npm install serverless-openapi-documentation --save-dev
+```
+
+**Using Yarn:**
+```bash
+yarn add serverless-openapi-documentation --dev
+```
+
+Next you need to add the plugin to the `plugins` section of your `serverless.yml` file.
+
+```yml
+plugins:
+  - serverless-openapi-documentation
+```
+
+You can confirm the plugin is correctly installed by running:
+
+```bash
+serverless | grep -i "ServerlessOpenAPIDocumentation"
+```
+
+It should return `ServerlessOpenAPIDocumentation` as one of the plugins on the list.
+
+> Note: Add this plugin _after_ `serverless-offline` to prevent issues with `String.replaceAll` being overridden incorrectly.
 
 ## Usage
 
@@ -63,7 +99,7 @@ custom:
     models: {}
 ```
 
-These configurations can be quite verbose; you can separate it out into it's own file, such as `serverless.doc.yml` as below:
+These configurations can be quite verbose; you can separate it out into its own file, such as `serverless.doc.yml` as below:
 
 ```yml
 custom:
@@ -208,8 +244,8 @@ queryParams:
 
 Path parameters can be described as follow:
 
-* `name`: the name of the query variable
-* `description`: a description of the query variable
+* `name`: the name of the path variable
+* `description`: a description of the path variable
 * `schema`: JSON schema (inline or file)
 
 ```yml
@@ -224,9 +260,9 @@ pathParams:
 
 Cookie parameters can be described as follow:
 
-* `name`: the name of the query variable
-* `description`: a description of the query variable
-* `required`: whether the query parameter is mandatory (boolean)
+* `name`: the name of the cookie variable
+* `description`: a description of the cookie variable
+* `required`: whether the cookie parameter is mandatory (boolean)
 * `schema`: JSON schema (inline or file)
 
 ```yml
@@ -255,7 +291,7 @@ You can define the response schemas by defining properties for your function eve
 For an example of a `methodResponses` configuration for an event see below:
 
 ```yml
-methodResponse:
+methodResponses:
   - statusCode: 200
     responseHeaders:
       - name: "Content-Type"
@@ -300,42 +336,9 @@ requestHeaders:
       type: "string"
 ```
 
-## Example configuration
+## Example Configuration
 
 Please view the example [serverless.yml](test/project/serverless.yml).
-
-## Install
-
-This plugin works for Serverless 1.x and up. Serverless 0.5 is not supported.
-
-To add this plugin to your package.json:
-
-**Using npm:**
-```bash
-npm install serverless-openapi-documentation --save-dev
-```
-
-**Using Yarn:**
-```bash
-yarn add serverless-openapi-documentation --dev
-```
-
-Next you need to add the plugin to the `plugins` section of your `serverless.yml` file.
-
-```yml
-plugins:
-  - serverless-openapi-documentation
-```
-
-You can confirm the plugin is correctly installed by running:
-
-```bash
-serverless | grep -i "ServerlessOpenAPIDocumentation"
-```
-
-It should return `ServerlessOpenAPIDocumentation` as one of the plugins on the list.
-
-> Note: Add this plugin _after_ `serverless-offline` to prevent issues with `String.replaceAll` being overridden incorrectly.
 
 ## License
 
